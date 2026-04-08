@@ -1,0 +1,72 @@
+<div class="timeline-container">
+  <button class="back-btn" (click)="goBack()">← Back to Orders</button>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading order status...</p>
+  </div>
+
+  <div class="timeline-content" *ngIf="!loading">
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <h1>Order Status Timeline</h1>
+        <p>{{ orderNumber }}</p>
+      </div>
+      <div class="status-badge" [style.background-color]="getStatusColor(currentStatus)">
+        {{ currentStatus }}
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="timeline-item" *ngFor="let status of statusHistory; let i = index; let last = last">
+        <div class="timeline-marker" [style.background-color]="getStatusColor(status.status)">
+          <span class="marker-icon">{{ getStatusIcon(status.status) }}</span>
+        </div>
+
+        <div class="timeline-connector" *ngIf="!last" [style.background-color]="getStatusColor(statusHistory[i + 1]?.status)"></div>
+
+        <div class="timeline-content-block">
+          <div class="status-header">
+            <h3>{{ status.status }}</h3>
+            <span class="timestamp">{{ status.changedDate | date: 'medium' }}</span>
+          </div>
+
+          <div class="status-details">
+            <p><strong>Changed By:</strong> {{ status.changedBy }}</p>
+            <p *ngIf="status.notes"><strong>Notes:</strong> {{ status.notes }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Info Card -->
+    <div class="info-card">
+      <h3>Order Progress</h3>
+      <div class="progress-info">
+        <div class="progress-item">
+          <span class="label">Total Status Changes:</span>
+          <span class="value">{{ statusHistory.length }}</span>
+        </div>
+        <div class="progress-item">
+          <span class="label">First Status:</span>
+          <span class="value">{{ statusHistory[0]?.status }}</span>
+        </div>
+        <div class="progress-item">
+          <span class="label">Current Status:</span>
+          <span class="value">{{ currentStatus }}</span>
+        </div>
+        <div class="progress-item">
+          <span class="label">Last Updated:</span>
+          <span class="value">{{ statusHistory[statusHistory.length - 1]?.changedDate | date: 'medium' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" (click)="goBack()">Back to Orders</button>
+    </div>
+  </div>
+</div>

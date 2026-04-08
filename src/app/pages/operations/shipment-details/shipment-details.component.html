@@ -1,0 +1,190 @@
+<div class="shipment-details-container">
+  <button class="back-btn" (click)="goBack()">← Back to Shipments</button>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading shipment details...</p>
+  </div>
+
+  <div class="details-content" *ngIf="!loading && shipment">
+    <!-- Header -->
+    <div class="details-header">
+      <div>
+        <h1>{{ shipment.shipmentNumber }}</h1>
+        <p class="subtitle">Order: {{ shipment.orderNumber }}</p>
+      </div>
+      <div class="header-info">
+        <div class="status-badge" [style.background-color]="getShipmentStatusColor(shipment.status)">
+          {{ shipment.status | titlecase | replace: '_': ' ' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Shipment Info Cards -->
+    <div class="info-cards">
+      <div class="info-card">
+        <h4>Carrier</h4>
+        <p>{{ shipment.carrier }}</p>
+      </div>
+      <div class="info-card">
+        <h4>Tracking Number</h4>
+        <p class="tracking">{{ shipment.trackingNumber }}</p>
+      </div>
+      <div class="info-card">
+        <h4>Created</h4>
+        <p>{{ shipment.createdDate | date: 'medium' }}</p>
+      </div>
+      <div class="info-card">
+        <h4>Est. Delivery</h4>
+        <p>{{ shipment.estimatedDeliveryDate | date: 'medium' }}</p>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <h3>Shipment Progress</h3>
+        <span class="percentage">{{ getProgressPercentage() }}% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-section">
+      <div class="tabs-header">
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'tasks'"
+          (click)="switchTab('tasks')">
+          📋 Tasks ({{ shipment.tasks.length }})
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'exceptions'"
+          (click)="switchTab('exceptions')">
+          ⚠️ Exceptions ({{ shipment.exceptions.length }})
+        </button>
+      </div>
+
+      <!-- Tasks Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'tasks'">
+        <div class="tasks-list">
+          <div class="task-item" *ngFor="let task of shipment.tasks">
+            <div class="task-header">
+              <div class="task-title">
+                <span class="task-icon">{{ getTaskIcon(task.type) }}</span>
+                <div>
+                  <h4>{{ task.taskNumber }} - {{ task.type | titlecase }}</h4>
+                  <p class="task-meta">Assigned to: {{ task.assignedTo || 'Unassigned' }}</p>
+                </div>
+              </div>
+              <span class="task-status" [style.background-color]="getTaskColor(task.status)">
+                {{ task.status | titlecase }}
+              </span>
+            </div>
+
+            <div class="task-details">
+              <div class="detail-row">
+                <span class="label">Created:</span>
+                <span class="value">{{ task.createdDate | date: 'medium' }}</span>
+              </div>
+              <div class="detail-row" *ngIf="task.completedDate">
+                <span class="label">Completed:</span>
+                <span class="value">{{ task.completedDate | date: 'medium' }}</span>
+              </div>
+              <div class="detail-row" *ngIf="task.notes">
+                <span class="label">Notes:</span>
+                <span class="value">{{ task.notes }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exceptions Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'exceptions'">
+        <div class="exceptions-toolbar">
+          <button class="btn btn-add" (click)="showExceptionForm = !showExceptionForm">
+            + Add Exception
+          </button>
+        </div>
+
+        <!-- Add Exception Form -->
+        <div class="exception-form" *ngIf="showExceptionForm">
+          <div class="form-group">
+            <label>Description</label>
+            <textarea 
+              [(ngModel)]="newException.description"
+              placeholder="Describe the exception..."
+              rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Severity</label>
+            <select [(ngModel)]="newException.severity">
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+              <option value="CRITICAL">Critical</option>
+            </select>
+          </div>
+          <div class="form-buttons">
+            <button class="btn btn-cancel" (click)="showExceptionForm = false">Cancel</button>
+            <button class="btn btn-submit" (click)="addException()" [disabled]="!newException.description">
+              Add Exception
+            </button>
+          </div>
+        </div>
+
+        <!-- Exceptions List -->
+        <div class="exceptions-list">
+          <div class="exception-item" *ngFor="let exception of shipment.exceptions">
+            <div class="exception-header">
+              <div>
+                <h4>{{ exception.exceptionCode }}</h4>
+                <p class="exception-desc">{{ exception.description }}</p>
+              </div>
+              <div class="exception-meta">
+                <span class="severity" [style.background-color]="getSeverityColor(exception.severity)">
+                  {{ exception.severity }}
+                </span>
+                <span class="exception-status" [class]="'status-' + exception.status.toLowerCase()">
+                  {{ exception.status | titlecase }}
+                </span>
+              </div>
+            </div>
+
+            <div class="exception-details">
+              <div class="detail-row">
+                <span class="label">Created:</span>
+                <span class="value">{{ exception.createdDate | date: 'medium' }}</span>
+              </div>
+              <div class="detail-row" *ngIf="exception.resolvedDate">
+                <span class="label">Resolved:</span>
+                <span class="value">{{ exception.resolvedDate | date: 'medium' }} by {{ exception.resolvedBy }}</span>
+              </div>
+              <div class="detail-row" *ngIf="exception.attachments">
+                <span class="label">Attachments:</span>
+                <span class="value">{{ exception.attachments?.length }} files</span>
+              </div>
+            </div>
+
+            <div class="exception-actions">
+              <button 
+                class="btn btn-resolve" 
+                *ngIf="exception.status === 'OPEN'"
+                (click)="resolveException(exception.id)">
+                Mark as Resolved
+              </button>
+            </div>
+          </div>
+
+          <div class="empty-message" *ngIf="shipment.exceptions.length === 0">
+            <p>✓ No exceptions recorded</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

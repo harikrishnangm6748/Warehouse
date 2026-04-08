@@ -1,0 +1,138 @@
+<div class="inventory-check-container">
+  <div class="header">
+    <h1>Inventory Check & Reservation</h1>
+    <p>Check stock levels and reserve items for orders</p>
+  </div>
+
+  <div class="layout">
+    <!-- Left Side - Inventory List -->
+    <div class="inventory-section">
+      <div class="controls">
+        <div class="search-box">
+          <input 
+            type="text" 
+            placeholder="Search by product name or SKU..." 
+            (input)="onSearchChange($event.target.value)" >
+          <span class="search-icon">🔍</span>
+        </div>
+      </div>
+
+      <div class="inventory-list" *ngIf="!loading">
+        <table *ngIf="filteredItems.length > 0">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Product Name</th>
+              <th>Location</th>
+              <th>Total</th>
+              <th>Reserved</th>
+              <th>Available</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of filteredItems">
+              <td class="sku">{{ item.sku }}</td>
+              <td class="product">{{ item.productName }}</td>
+              <td class="location">{{ item.location }}</td>
+              <td class="quantity">{{ item.quantity }}</td>
+              <td class="reserved">{{ item.reservedQuantity }}</td>
+              <td class="available">{{ item.availableQuantity }}</td>
+              <td>
+                <span class="stock-status" [style.background-color]="getStockColor(item.availableQuantity, item.quantity)">
+                  {{ getStockStatus(item.availableQuantity, item.quantity) }}
+                </span>
+              </td>
+              <td>
+                <button 
+                  class="reserve-btn" 
+                  (click)="openReservationForm(item)"
+                  [disabled]="item.availableQuantity === 0">
+                  Reserve
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="empty-state" *ngIf="filteredItems.length === 0">
+          <p>📦 No inventory items found</p>
+        </div>
+      </div>
+
+      <div class="loading" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Loading inventory...</p>
+      </div>
+    </div>
+
+    <!-- Right Side - Reservations -->
+    <div class="reservations-panel">
+      <div class="panel-header">
+        <h3>Reserved Items</h3>
+        <span class="count-badge">{{ selectedItems.length }}</span>
+      </div>
+
+      <div class="reservations-list">
+        <div class="reservation-item" *ngFor="let res of selectedItems; let i = index">
+          <div class="res-header">
+            <span class="res-product">{{ inventoryItems.find(item => item.id === res.itemId)?.productName }}</span>
+            <button class="remove-btn" (click)="removeReservation(i)">✕</button>
+          </div>
+          <div class="res-details">
+            <p><strong>Quantity:</strong> {{ res.quantity }}</p>
+            <p><strong>Reserved:</strong> {{ res.reservedDate | date: 'short' }}</p>
+            <p><strong>Expires:</strong> {{ res.expiryDate | date: 'short' }}</p>
+          </div>
+        </div>
+
+        <div class="empty-reservations" *ngIf="selectedItems.length === 0">
+          <p>No items reserved yet</p>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <button 
+          class="btn btn-confirm" 
+          (click)="confirmReservations()"
+          [disabled]="selectedItems.length === 0">
+          Confirm Reservations
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reservation Form Modal -->
+  <div class="modal" *ngIf="showReservationForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Reserve Item</h3>
+        <button class="close-btn" (click)="closeReservationForm()">✕</button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedItemForReservation">
+        <div class="info-group">
+          <p><strong>SKU:</strong> {{ selectedItemForReservation.sku }}</p>
+          <p><strong>Product:</strong> {{ selectedItemForReservation.productName }}</p>
+          <p><strong>Available:</strong> {{ selectedItemForReservation.availableQuantity }}</p>
+        </div>
+
+        <div class="form-group">
+          <label>Quantity to Reserve *</label>
+          <input 
+            type="number" 
+            [(ngModel)]="reservationQuantity"
+            min="1"
+            [max]="selectedItemForReservation.availableQuantity"
+            placeholder="Enter quantity">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-cancel" (click)="closeReservationForm()">Cancel</button>
+        <button class="btn btn-reserve" (click)="reserveItem()">Reserve</button>
+      </div>
+    </div>
+  </div>
+</div>

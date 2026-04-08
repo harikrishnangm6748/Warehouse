@@ -1,0 +1,100 @@
+<div class="my-orders-container">
+  <div class="header">
+    <h1>My Orders</h1>
+    <p>View and manage all your created orders</p>
+  </div>
+
+  <div class="controls-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search orders by number or customer name..." 
+        (input)="onSearchChange($event.target | keyvalue)"
+        #searchInput >
+      <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'ALL'"
+        (click)="onStatusChange('ALL')">
+        All
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'PENDING'"
+        (click)="onStatusChange('PENDING')">
+        Pending
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'CONFIRMED'"
+        (click)="onStatusChange('CONFIRMED')">
+        Confirmed
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'PROCESSING'"
+        (click)="onStatusChange('PROCESSING')">
+        Processing
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'SHIPPED'"
+        (click)="onStatusChange('SHIPPED')">
+        Shipped
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'DELIVERED'"
+        (click)="onStatusChange('DELIVERED')">
+        Delivered
+      </button>
+    </div>
+  </div>
+
+  <div class="orders-section" *ngIf="!loading">
+    <div class="orders-grid">
+      <div class="order-card" *ngFor="let order of filteredOrders">
+        <div class="order-header">
+          <div class="order-number">{{ order.orderNumber }}</div>
+          <div [class]="'status-badge ' + getStatusClass(order.status)">{{ order.status }}</div>
+        </div>
+
+        <div class="order-body">
+          <div class="info-row">
+            <span class="label">Customer:</span>
+            <span class="value">{{ order.customerName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Items:</span>
+            <span class="value">{{ order.items.length }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Total:</span>
+            <span class="value price">${{ order.totalAmount.toFixed(2) }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Created:</span>
+            <span class="value">{{ order.createdDate | date: 'M/d/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <button class="btn btn-secondary" (click)="viewStatus(order.id)">View Status</button>
+          <button class="btn btn-primary" (click)="viewDetails(order.id)">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredOrders.length === 0">
+      <p>📦 No orders found</p>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading orders...</p>
+  </div>
+</div>

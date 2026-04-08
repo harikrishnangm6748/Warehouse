@@ -1,0 +1,152 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p>Welcome back! Here's your warehouse overview</p>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <div class="dashboard-content" *ngIf="!loading && stats">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-content">
+          <h3>Total Orders</h3>
+          <p class="stat-value">{{ stats.totalOrders }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-content">
+          <h3>Pending Orders</h3>
+          <p class="stat-value pending">{{ stats.pendingOrders }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✓</div>
+        <div class="stat-content">
+          <h3>Completed Orders</h3>
+          <p class="stat-value completed">{{ stats.completedOrders }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-content">
+          <h3>Total Revenue</h3>
+          <p class="stat-value">${{ stats.totalRevenue.toFixed(2) }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🚚</div>
+        <div class="stat-content">
+          <h3>Active Shipments</h3>
+          <p class="stat-value">{{ stats.activeShipments }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✗</div>
+        <div class="stat-content">
+          <h3>Failed Deliveries</h3>
+          <p class="stat-value failed">{{ stats.failedDeliveries }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="actions-grid">
+        <button 
+          class="action-btn" 
+          (click)="navigateTo('/app/employee/create-order')"
+          *ngIf="userRole === 'EMPLOYEE' || userRole === 'ADMIN'">
+          <span class="action-icon">➕</span>
+          <span>Create Order</span>
+        </button>
+
+        <button 
+          class="action-btn" 
+          (click)="navigateTo('/app/employee/my-orders')"
+          *ngIf="userRole === 'EMPLOYEE' || userRole === 'ADMIN'">
+          <span class="action-icon">📦</span>
+          <span>My Orders</span>
+        </button>
+
+        <button 
+          class="action-btn" 
+          (click)="navigateTo('/app/warehouse/orders-queue')"
+          *ngIf="userRole === 'WAREHOUSE' || userRole === 'ADMIN'">
+          <span class="action-icon">🏭</span>
+          <span>Orders Queue</span>
+        </button>
+
+        <button 
+          class="action-btn" 
+          (click)="navigateTo('/app/warehouse/inventory-check')"
+          *ngIf="userRole === 'WAREHOUSE' || userRole === 'ADMIN'">
+          <span class="action-icon">📊</span>
+          <span>Inventory Check</span>
+        </button>
+
+        <button 
+          class="action-btn" 
+          (click)="navigateTo('/app/operations/shipments-queue')"
+          *ngIf="userRole === 'OPERATIONS' || userRole === 'ADMIN'">
+          <span class="action-icon">🚚</span>
+          <span>Shipments</span>
+        </button>
+
+        <button 
+          class="action-btn" 
+          (click)="navigateTo('/app/notifications')">
+          <span class="action-icon">🔔</span>
+          <span>Notifications</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Feature Summary -->
+    <div class="feature-summary">
+      <div class="feature-card">
+        <h3>🎯 System Features</h3>
+        <ul>
+          <li>Create and manage orders</li>
+          <li>Track inventory levels</li>
+          <li>Dispatch products</li>
+          <li>Monitor shipments</li>
+          <li>Manage exceptions</li>
+          <li>Real-time notifications</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <h3>👥 User Roles</h3>
+        <ul>
+          <li><strong>Employee:</strong> Create orders, track status</li>
+          <li><strong>Warehouse:</strong> Process orders, manage inventory</li>
+          <li><strong>Operations:</strong> Track shipments, handle exceptions</li>
+          <li><strong>Admin:</strong> Full system access</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <h3>📈 Today's Activity</h3>
+        <ul>
+          <li>{{ stats.totalOrders }} orders in system</li>
+          <li>{{ stats.activeShipments }} active shipments</li>
+          <li>{{ stats.pendingOrders }} awaiting processing</li>
+          <li>{{ stats.failedDeliveries }} delivery issues</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

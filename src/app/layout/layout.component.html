@@ -1,0 +1,81 @@
+<div class="layout-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="logo">📦</div>
+      <h2>Warehouse</h2>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">☰</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <h4>Common</h4>
+        <a class="nav-link" (click)="navigate('/app/dashboard')">
+          <span class="icon">🏠</span> Dashboard
+        </a>
+        <a class="nav-link" (click)="navigate('/app/notifications')">
+          <span class="icon">🔔</span> Notifications
+        </a>
+      </div>
+
+      <div class="nav-section" *ngIf="userRole === 'EMPLOYEE' || userRole === 'ADMIN'">
+        <h4>Employee</h4>
+        <a class="nav-link" (click)="navigate('/app/employee/create-order')">
+          <span class="icon">➕</span> Create Order
+        </a>
+        <a class="nav-link" (click)="navigate('/app/employee/my-orders')">
+          <span class="icon">📦</span> My Orders
+        </a>
+      </div>
+
+      <div class="nav-section" *ngIf="userRole === 'WAREHOUSE' || userRole === 'ADMIN'">
+        <h4>Warehouse</h4>
+        <a class="nav-link" (click)="navigate('/app/warehouse/orders-queue')">
+          <span class="icon">🏭</span> Orders Queue
+        </a>
+        <a class="nav-link" (click)="navigate('/app/warehouse/inventory-check')">
+          <span class="icon">📊</span> Inventory Check
+        </a>
+      </div>
+
+      <div class="nav-section" *ngIf="userRole === 'OPERATIONS' || userRole === 'ADMIN'">
+        <h4>Operations</h4>
+        <a class="nav-link" (click)="navigate('/app/operations/shipments-queue')">
+          <span class="icon">🚚</span> Shipments Queue
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">👤</div>
+        <div class="user-details">
+          <p class="user-role">{{ userRole }}</p>
+          <p class="user-email">{{ userEmail }}</p>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <button class="menu-toggle" (click)="toggleMobileMenu()">☰</button>
+      <h1 class="page-title">Warehouse Management System</h1>
+      <div class="topbar-actions">
+        <button class="action-icon" (click)="navigate('/app/notifications')">🔔</button>
+        <button class="action-icon" (click)="logout()">🚪</button>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-overlay" *ngIf="isMobileMenuOpen" (click)="isMobileMenuOpen = false"></div>
+</div>

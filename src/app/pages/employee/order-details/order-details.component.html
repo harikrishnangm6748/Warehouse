@@ -1,0 +1,131 @@
+<div class="order-details-container">
+  <button class="back-btn" (click)="goBack()">← Back to Orders</button>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading order details...</p>
+  </div>
+
+  <div class="details-content" *ngIf="!loading && order">
+    <!-- Order Header -->
+    <div class="order-header">
+      <div>
+        <h1>{{ order.orderNumber }}</h1>
+        <p class="subtitle">Order ID: {{ order.id }}</p>
+      </div>
+      <div class="status-section">
+        <span class="status-label">Status:</span>
+        <span class="status-badge" [style.background-color]="getStatusColor(order.status)">
+          {{ order.status }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+      <!-- Order Information -->
+      <div class="card">
+        <h3>Order Information</h3>
+        <div class="info-group">
+          <div class="info-item">
+            <span class="label">Order Number:</span>
+            <span class="value">{{ order.orderNumber }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Created Date:</span>
+            <span class="value">{{ order.createdDate | date: 'medium' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Created By:</span>
+            <span class="value">{{ order.createdBy }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Description:</span>
+            <span class="value">{{ order.description || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Information -->
+      <div class="card">
+        <h3>Customer Information</h3>
+        <div class="info-group">
+          <div class="info-item">
+            <span class="label">Customer ID:</span>
+            <span class="value">{{ order.customerId }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Customer Name:</span>
+            <span class="value">{{ order.customerName }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping Address -->
+      <div class="card">
+        <h3>Shipping Address</h3>
+        <div class="address-block" *ngIf="order.shippingAddress">
+          <p>{{ order.shippingAddress.street }}</p>
+          <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.state }} {{ order.shippingAddress.zipCode }}</p>
+          <p>{{ order.shippingAddress.country }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="card items-card">
+      <h3>Order Items</h3>
+      <div class="items-table">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Reserved</th>
+              <th>Unit Price</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order.items">
+              <td>{{ item.sku || 'N/A' }}</td>
+              <td>{{ item.productName }}</td>
+              <td class="quantity">{{ item.quantity }}</td>
+              <td class="reserved">{{ item.reservedQuantity || 0 }}</td>
+              <td class="price">${{ item.unitPrice.toFixed(2) }}</td>
+              <td class="price">${{ item.totalPrice.toFixed(2) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card summary-card">
+      <div class="summary-row">
+        <span class="label">Subtotal:</span>
+        <span class="value">${{ order.totalAmount.toFixed(2) }}</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Tax:</span>
+        <span class="value">$0.00</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Shipping:</span>
+        <span class="value">$0.00</span>
+      </div>
+      <div class="summary-row total">
+        <span class="label">Total:</span>
+        <span class="value">${{ order.totalAmount.toFixed(2) }}</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" (click)="goBack()">Back</button>
+      <button class="btn btn-primary">Download Invoice</button>
+      <button class="btn btn-primary">Print</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="create-order-container">
+  <div class="header">
+    <h1>Create New Order</h1>
+    <p>Add items to create a new customer order</p>
+  </div>
+
+  <div class="form-section">
+    <form [formGroup]="createOrderForm" (ngSubmit)="submitOrder()">
+      <div class="form-grid">
+        <!-- Customer Information -->
+        <div class="section-header">
+          <h2>Customer Information</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Customer ID *</label>
+          <input type="text" formControlName="customerId" placeholder="Enter Customer ID" />
+        </div>
+
+        <div class="form-group">
+          <label>Customer Name *</label>
+          <input type="text" formControlName="customerName" placeholder="Enter Customer Name" />
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="section-header">
+          <h2>Shipping Address</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Street *</label>
+          <input type="text" formControlName="street" placeholder="Enter Street Address" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>City *</label>
+            <input type="text" formControlName="city" placeholder="Enter City" />
+          </div>
+          <div class="form-group">
+            <label>State *</label>
+            <input type="text" formControlName="state" placeholder="Enter State" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>ZIP Code *</label>
+            <input type="text" formControlName="zipCode" placeholder="Enter ZIP Code" />
+          </div>
+          <div class="form-group">
+            <label>Country *</label>
+            <input type="text" formControlName="country" placeholder="Enter Country" />
+          </div>
+        </div>
+
+        <!-- Order Description -->
+        <div class="form-group">
+          <label>Description</label>
+          <textarea formControlName="description" placeholder="Enter order description..."></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Add Items Section -->
+  <div class="items-section">
+    <h2>Order Items</h2>
+    <div class="add-item-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Product ID</label>
+          <input type="text" formControlName="productId" #productId placeholder="Enter Product ID" />
+        </div>
+        <div class="form-group">
+          <label>Product Name</label>
+          <input type="text" formControlName="productName" #productName placeholder="Enter Product Name" />
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" formControlName="quantity" #quantity placeholder="Enter Quantity" min="1" />
+        </div>
+        <div class="form-group">
+          <label>Unit Price ($)</label>
+          <input type="number" formControlName="unitPrice" #unitPrice placeholder="Enter Unit Price" min="0.01" step="0.01" />
+        </div>
+        <button type="button" class="btn btn-add" (click)="addItem()">Add Item</button>
+      </div>
+    </div>
+
+    <!-- Items List -->
+    <div class="items-list" *ngIf="orderItems.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderItems; let i = index">
+            <td>{{ item.productId }}</td>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.unitPrice.toFixed(2) }}</td>
+            <td>${{ item.totalPrice.toFixed(2) }}</td>
+            <td>
+              <button type="button" class="btn btn-delete" (click)="removeItem(i)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Total Amount -->
+    <div class="total-section" *ngIf="orderItems.length > 0">
+      <div class="total-row">
+        <span>Total Amount:</span>
+        <span class="amount">${{ totalAmount.toFixed(2) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Message -->
+  <div class="success-message" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn btn-primary" (click)="submitOrder()" [disabled]="createOrderForm.invalid || orderItems.length === 0 || isLoading">
+      {{ isLoading ? 'Creating Order...' : 'Create Order' }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<div class="shipments-queue-container">
+  <div class="header">
+    <h1>Shipments Queue</h1>
+    <p>Track and manage all active shipments</p>
+  </div>
+
+  <div class="controls-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search by shipment #, order #, or tracking #..." 
+        (input)="onSearchChange($event.target.value)" >
+      <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'ALL'"
+        (click)="onStatusChange('ALL')">
+        All
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'PENDING'"
+        (click)="onStatusChange('PENDING')">
+        Pending
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'IN_TRANSIT'"
+        (click)="onStatusChange('IN_TRANSIT')">
+        In Transit
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'OUT_FOR_DELIVERY'"
+        (click)="onStatusChange('OUT_FOR_DELIVERY')">
+        Out for Delivery
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'DELIVERED'"
+        (click)="onStatusChange('DELIVERED')">
+        Delivered
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedStatus === 'FAILED'"
+        (click)="onStatusChange('FAILED')">
+        Failed
+      </button>
+    </div>
+  </div>
+
+  <div class="shipments-list" *ngIf="!loading">
+    <div class="shipments-grid">
+      <div class="shipment-card" *ngFor="let shipment of filteredShipments">
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="shipment-info">
+            <div class="shipment-number">{{ shipment.shipmentNumber }}</div>
+            <div class="order-number">Order: {{ shipment.orderNumber }}</div>
+          </div>
+          <div class="status-badge" [style.background-color]="getStatusColor(shipment.status)">
+            <span class="status-icon">{{ getStatusIcon(shipment.status) }}</span>
+            {{ shipment.status | titlecase | replace: '_': ' ' }}
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="info-row">
+            <span class="label">Carrier:</span>
+            <span class="value">{{ shipment.carrier }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Tracking:</span>
+            <span class="value tracking">{{ shipment.trackingNumber }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Created:</span>
+            <span class="value">{{ shipment.createdDate | date: 'M/d/yyyy' }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Est. Delivery:</span>
+            <span class="value">{{ shipment.estimatedDeliveryDate | date: 'M/d/yyyy' }}</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-label">
+              <span>Progress:</span>
+              <span class="percentage">{{ getProgressPercentage(shipment) }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getProgressPercentage(shipment)"></div>
+            </div>
+            <div class="task-count">{{ shipment.tasks.length }} tasks</div>
+          </div>
+
+          <!-- Tasks Summary -->
+          <div class="tasks-summary">
+            <div class="task-item" *ngFor="let task of shipment.tasks">
+              <span class="task-type">{{ task.type }}</span>
+              <span class="task-status" [class]="'status-' + task.status.toLowerCase()">
+                {{ task.status | titlecase }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="card-footer">
+          <button class="btn btn-details" (click)="viewDetails(shipment.id)">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredShipments.length === 0">
+      <p>📭 No shipments found</p>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading shipments...</p>
+  </div>
+</div>
