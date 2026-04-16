@@ -1,0 +1,6 @@
+/workspaces/Warehouse/Warehouse.Application/obj/Debug/net10.0/Warehouse.Application.csproj.AssemblyReference.cache
+/workspaces/Warehouse/Warehouse.Application/obj/Debug/net10.0/Warehouse.Application.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/Warehouse/Warehouse.Application/obj/Debug/net10.0/Warehouse.Application.AssemblyInfoInputs.cache
+/workspaces/Warehouse/Warehouse.Application/obj/Debug/net10.0/Warehouse.Application.AssemblyInfo.cs
+/workspaces/Warehouse/Warehouse.Application/obj/Debug/net10.0/Warehouse.Application.csproj.CoreCompileInputs.cache
+/workspaces/Warehouse/Warehouse.Application/obj/Debug/net10.0/Warehouse.Application.sourcelink.json

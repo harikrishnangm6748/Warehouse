@@ -2,6 +2,7 @@ using Warehouse.Application.DTOs;
 using Warehouse.Application.Interfaces;
 using Warehouse.Domain.Entities;
 using Warehouse.Infrastructure.Repositories;
+using Warehouse.Infrastructure.Data;
 
 namespace Warehouse.Application.Services
 {

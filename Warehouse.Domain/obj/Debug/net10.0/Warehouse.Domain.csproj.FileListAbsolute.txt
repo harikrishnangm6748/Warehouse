@@ -1,0 +1,12 @@
+/workspaces/Warehouse/Warehouse.Domain/bin/Debug/net10.0/Warehouse.Domain.deps.json
+/workspaces/Warehouse/Warehouse.Domain/bin/Debug/net10.0/Warehouse.Domain.dll
+/workspaces/Warehouse/Warehouse.Domain/bin/Debug/net10.0/Warehouse.Domain.pdb
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.AssemblyInfoInputs.cache
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.AssemblyInfo.cs
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.csproj.CoreCompileInputs.cache
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.sourcelink.json
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.dll
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/refint/Warehouse.Domain.dll
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/Warehouse.Domain.pdb
+/workspaces/Warehouse/Warehouse.Domain/obj/Debug/net10.0/ref/Warehouse.Domain.dll
