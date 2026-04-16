@@ -10,7 +10,7 @@ namespace Warehouse.Infrastructure.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
-        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Warehouse.Domain.Entities.Warehouse> Warehouses { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<InventoryStock> InventoryStocks { get; set; }
         public DbSet<InventoryReservation> InventoryReservations { get; set; }

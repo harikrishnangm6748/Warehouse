@@ -1,0 +1,16 @@
+/workspaces/Warehouse/Warehouse.Infrastructure/bin/Debug/net10.0/Warehouse.Infrastructure.deps.json
+/workspaces/Warehouse/Warehouse.Infrastructure/bin/Debug/net10.0/Warehouse.Infrastructure.dll
+/workspaces/Warehouse/Warehouse.Infrastructure/bin/Debug/net10.0/Warehouse.Infrastructure.pdb
+/workspaces/Warehouse/Warehouse.Infrastructure/bin/Debug/net10.0/Warehouse.Domain.dll
+/workspaces/Warehouse/Warehouse.Infrastructure/bin/Debug/net10.0/Warehouse.Domain.pdb
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.csproj.AssemblyReference.cache
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.AssemblyInfoInputs.cache
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.AssemblyInfo.cs
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.csproj.CoreCompileInputs.cache
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.sourcelink.json
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehous.C6D6500E.Up2Date
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.dll
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/refint/Warehouse.Infrastructure.dll
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/Warehouse.Infrastructure.pdb
+/workspaces/Warehouse/Warehouse.Infrastructure/obj/Debug/net10.0/ref/Warehouse.Infrastructure.dll

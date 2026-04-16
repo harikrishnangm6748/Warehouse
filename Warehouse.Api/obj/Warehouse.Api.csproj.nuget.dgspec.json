@@ -539,6 +539,9 @@
             "projectReferences": {
               "/workspaces/Warehouse/Warehouse.Domain/Warehouse.Domain.csproj": {
                 "projectPath": "/workspaces/Warehouse/Warehouse.Domain/Warehouse.Domain.csproj"
+              },
+              "/workspaces/Warehouse/Warehouse.Infrastructure/Warehouse.Infrastructure.csproj": {
+                "projectPath": "/workspaces/Warehouse/Warehouse.Infrastructure/Warehouse.Infrastructure.csproj"
               }
             }
           }
@@ -1207,9 +1210,6 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/workspaces/Warehouse/Warehouse.Application/Warehouse.Application.csproj": {
-                "projectPath": "/workspaces/Warehouse/Warehouse.Application/Warehouse.Application.csproj"
-              },
               "/workspaces/Warehouse/Warehouse.Domain/Warehouse.Domain.csproj": {
                 "projectPath": "/workspaces/Warehouse/Warehouse.Domain/Warehouse.Domain.csproj"
               }

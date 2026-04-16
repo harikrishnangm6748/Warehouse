@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Entities;
+using Warehouse.Infrastructure.Data;
 
 namespace Warehouse.Infrastructure.Repositories
 {

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Warehouse.Infrastructure.Data;
 
 namespace Warehouse.Infrastructure.Repositories
 {
